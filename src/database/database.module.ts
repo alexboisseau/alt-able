@@ -13,7 +13,7 @@ const entities = Object.values(Entities);
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         ...configService.databaseConfiguration,
-        ...entities,
+        entities,
       }),
     }),
     TypeOrmModule.forFeature(entities),
