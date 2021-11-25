@@ -5,8 +5,8 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { Dish } from '../menu/dish.entity';
-import { Menu } from '../menu/menu.entity';
+import { DishEntity } from '../menu/dish.entity';
+import { MenuEntity } from '../menu/menu.entity';
 import { Ticket } from './ticket.entity';
 
 @Entity()
@@ -14,13 +14,13 @@ export class TicketDetails {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => Dish)
+  @OneToOne(() => DishEntity)
   @JoinColumn()
-  dishId: Dish;
+  dishId: DishEntity;
 
-  @OneToOne(() => Menu)
+  @OneToOne(() => MenuEntity)
   @JoinColumn()
-  menuId: Menu;
+  menuId: MenuEntity;
 
   @OneToOne(() => Ticket)
   @JoinColumn()

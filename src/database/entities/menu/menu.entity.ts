@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToMany } from 'typeorm';
 import { BaseEntity } from '../utils/base.entity';
-import { DishEntity } from '.';
+import { DishEntity } from './dish.entity';
 import { Type } from 'class-transformer';
 
 @Entity()
