@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import config from 'configs/config';
 import { DatabaseConfig } from 'configs/config.interface';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -13,19 +14,7 @@ import { DatabaseConfig } from 'configs/config.interface';
       envFilePath: '.env',
       expandVariables: true,
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => {
-        const databaseConfig = configService.get<DatabaseConfig>('database');
-
-        return {
-          type: 'postgres',
-          synchronize: true,
-          ...databaseConfig,
-        };
-      },
-      inject: [ConfigService],
-    }),
+    DatabaseModule,
   ],
 })
 export class AppModule {}
