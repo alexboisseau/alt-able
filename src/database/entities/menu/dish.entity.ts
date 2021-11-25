@@ -1,9 +1,7 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
-  ManyToMany,
-  JoinTable,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 
 export enum DishType {
