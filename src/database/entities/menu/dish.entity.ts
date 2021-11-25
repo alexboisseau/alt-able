@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Ingredients } from './ingredients.entity';
 
 export enum DishType {
   APERITIF = 'Apéritif',
@@ -30,4 +31,8 @@ export class Dish {
 
   @Column()
   quantity: number;
+
+  @ManyToMany(() => Ingredients)
+  @JoinTable()
+  ingredients: Ingredients[];
 }
