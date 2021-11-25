@@ -5,6 +5,8 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
+import { Ingredient } from './ingredient.entity';
+import { Menu } from './menu.entity';
 
 export enum DishType {
   APERITIF = 'Apéritif',
@@ -36,4 +38,12 @@ export class Dish {
 
   @Column()
   quantity: number;
+
+  @ManyToMany(() => Menu)
+  @JoinTable()
+  menus: Menu[];
+
+  @ManyToMany(() => Ingredient)
+  @JoinTable()
+  ingredients: Ingredient[];
 }
