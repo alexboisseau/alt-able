@@ -1,35 +1,53 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
-import { Ingredient } from './ingredient.entity';
+import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
+import { MenuEntity } from './menu.entity';
+import { BaseEntity } from '../utils/base.entity';
+import { Type } from 'class-transformer';
+import { IngredientEntity } from './ingredient.entity';
 
-export enum DishType {
-  APERITIF = 'Apéritif',
-  STARTER = 'Entrée',
-  MAIN = 'Plat principal',
-  DESSERT = 'DESSERT',
-  DRINK = 'Boisson',
-}
+export type DishType =
+  | 'Apéritif'
+  | 'Entrée'
+  | 'Plat principal'
+  | 'Dessert'
+  | 'Boisson';
 
 @Entity()
-export class Dish {
-  @Column()
-  name: string;
+export class DishEntity extends BaseEntity {
+  @Column({
+    name: 'name',
+    type: 'varchar',
+  })
+  public name: string;
 
-  @Column('text')
-  description: string;
+  @Column({
+    type: 'varchar',
+    name: 'description',
+  })
+  public description: string;
 
   @Column({
     type: 'enum',
-    enum: DishType,
+    enum: ['Apéritif', 'Entrée', 'Plat principal', 'Dessert', 'Boisson'],
+    default: 'Apéritif',
+    name: 'type',
   })
-  type: DishType;
+  public type: DishType;
 
   @Column('decimal', { precision: 5, scale: 2 })
-  price: number;
+  public price: number;
 
-  @Column()
-  quantity: number;
+  @Column({
+    name: 'quantity',
+    type: 'varchar',
+  })
+  public quantity: number;
 
-  @ManyToMany(() => Ingredient)
-  @JoinTable()
-  ingredients: Ingredient[];
+  @ManyToMany(() => MenuEntity, (item) => item.dishes)
+  @Type(() => MenuEntity)
+  public menus!: MenuEntity[];
+
+  @ManyToMany(() => IngredientEntity, (item) => item.dishes)
+  @JoinTable({ name: 'menus_dishes' })
+  @Type(() => IngredientEntity)
+  public ingredients!: IngredientEntity[];
 }

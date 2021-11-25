@@ -1,12 +1,20 @@
-import { Config } from './config.interface';
+import { Injectable } from '@nestjs/common';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-export default (): Config => ({
-  port: parseInt(process.env.PORT, 10) || 3000,
-  database: {
-    host: process.env.DB_HOST,
-    port: parseInt(process.env.DB_PORT, 10) || 5432,
-    username: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD,
-    database: process.env.POSTGRES_DB,
-  },
-});
+@Injectable()
+export class ConfigService {
+  public get databaseConfiguration(): TypeOrmModuleOptions {
+    return {
+      type: 'postgres',
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT, 10),
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DB,
+      synchronize: true,
+    };
+  }
+  public get port(): number {
+    return parseInt(process.env.PORT);
+  }
+}

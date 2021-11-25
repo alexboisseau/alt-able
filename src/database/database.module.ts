@@ -1,25 +1,23 @@
 import { Global, Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { ConfigService } from '../../configs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as Entities from './entities';
+import { ConfigModule } from '../../configs/config.module';
 
-import { DatabaseConfig } from 'configs/config.interface';
-
+const entities = Object.values(Entities);
 @Global()
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      imports: [ConfigService],
-      useFactory: (configService: ConfigService) => {
-        const databaseConfig = configService.get<DatabaseConfig>('database');
-
-        return {
-          type: 'postgres',
-          synchronize: true,
-          ...databaseConfig,
-        };
-      },
+      imports: [ConfigModule],
       inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        ...configService.databaseConfiguration,
+        ...entities,
+      }),
     }),
+    TypeOrmModule.forFeature(entities),
   ],
+  exports: [TypeOrmModule],
 })
 export class DatabaseModule {}

@@ -1,36 +1,40 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
-import { Dish } from './dish.entity';
+import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
 import { BaseEntity } from '../utils/base.entity';
+import { DishEntity } from '.';
+import { Type } from 'class-transformer';
 
-export enum UnitOfMeasure {
-  GRAM = 'g',
-  LITER = 'L',
-}
+export type UnitOfMeasure = ['g', 'L'];
 
 @Entity()
-export class Ingredient extends BaseEntity {
-  @Column()
-  name: string;
-
-  @Column()
-  quantity: number;
+export class IngredientEntity extends BaseEntity {
+  @Column({
+    name: 'name',
+    type: 'varchar',
+  })
+  public name: string;
 
   @Column({
-    type: 'enum',
-    enum: UnitOfMeasure,
+    name: 'quantity',
+    type: 'varchar',
   })
-  unitOfMeasure: UnitOfMeasure;
+  public quantity: number;
 
-  @Column()
-  origin: string;
+  @Column({
+    name: 'unitOfMeasure',
+    type: 'enum',
+    enum: ['g', 'L'],
+    default: 'g',
+  })
+  public unitOfMeasure: UnitOfMeasure;
 
-  @ManyToMany(() => Dish)
+  @Column({
+    name: 'origin',
+    type: 'varchar',
+  })
+  public origin: string;
+
+  @ManyToMany(() => DishEntity, (item) => item.ingredients)
   @JoinTable({ name: 'dishes_ingredients' })
-  dishes: Dish[];
+  @Type(() => DishEntity)
+  public dishes: DishEntity[];
 }

@@ -1,25 +1,26 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
-import { Dish } from './dish.entity';
+import { Entity, Column, ManyToMany } from 'typeorm';
 import { BaseEntity } from '../utils/base.entity';
+import { DishEntity } from '.';
+import { Type } from 'class-transformer';
 
 @Entity()
-export class Menu extends BaseEntity {
-  @Column()
-  name: string;
+export class MenuEntity extends BaseEntity {
+  @Column({
+    name: 'name',
+    type: 'varchar',
+  })
+  public name: string;
 
-  @Column('text')
-  description: string;
+  @Column({
+    name: 'description',
+    type: 'varchar',
+  })
+  public description: string;
 
   @Column('decimal', { precision: 5, scale: 2 })
-  price: number;
+  public price: number;
 
-  @ManyToMany(() => Dish)
-  @JoinTable({ name: 'menus_dishes' })
-  dishes: Dish[];
+  @ManyToMany(() => DishEntity, (item) => item.menus)
+  @Type(() => DishEntity)
+  public dishes: DishEntity[];
 }
