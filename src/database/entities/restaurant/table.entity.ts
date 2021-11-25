@@ -1,5 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { BaseEntity } from '../utils';
+import { SeatingTable } from './seatingTables.entity';
 
 @Entity('Table')
 export class TableEntity extends BaseEntity {
@@ -20,4 +27,8 @@ export class TableEntity extends BaseEntity {
     type: 'varchar',
   })
   number: number;
+
+  @ManyToMany(() => SeatingTable, (item) => item.tables)
+  @JoinTable()
+  public SeatingTables: SeatingTable[];
 }

@@ -20,9 +20,8 @@ export class SeatingTable {
   @Column('text')
   description: string;
 
-  @ManyToMany(() => TableEntity)
-  @JoinTable()
-  tableIds: TableEntity[];
+  @ManyToMany(() => TableEntity, (item) => item.SeatingTables)
+  public tables: TableEntity[];
 
   @OneToMany(() => Service, (service) => service.id)
   services: Service[];
