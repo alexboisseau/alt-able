@@ -6,6 +6,7 @@ import {
   JoinTable,
 } from 'typeorm';
 import { Dish } from './dish.entity';
+import { BaseEntity } from '../utils/base.entity';
 
 export enum UnitOfMeasure {
   GRAM = 'g',
@@ -13,10 +14,7 @@ export enum UnitOfMeasure {
 }
 
 @Entity()
-export class Ingredient {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Ingredient extends BaseEntity {
   @Column()
   name: string;
 

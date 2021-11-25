@@ -6,12 +6,10 @@ import {
   JoinTable,
 } from 'typeorm';
 import { Dish } from './dish.entity';
+import { BaseEntity } from '../utils/base.entity';
 
 @Entity()
-export class Menu {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Menu extends BaseEntity {
   @Column()
   name: string;
 
