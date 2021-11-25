@@ -1,3 +1,3 @@
-export * from './dish.entity';
-export * from './ingredient.entity';
-export * from './menu.entity';
+export { DishEntity } from './dish.entity';
+export { IngredientEntity } from './ingredient.entity';
+export { MenuEntity } from './menu.entity';
