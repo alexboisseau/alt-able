@@ -3,7 +3,7 @@ import {
   Column,
   PrimaryGeneratedColumn,
   OneToOne,
-  JoinColumn
+  JoinColumn,
 } from 'typeorm';
 import { Dish } from '../menu/dish.entity';
 import { Menu } from '../menu/menu.entity';
@@ -32,4 +32,3 @@ export class TicketDetails {
   @Column()
   comment: string;
 }
-    
