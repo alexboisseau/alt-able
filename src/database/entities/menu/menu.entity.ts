@@ -22,6 +22,6 @@ export class Menu {
   price: number;
 
   @ManyToMany(() => Dish)
-  @JoinTable()
+  @JoinTable({ name: 'menus_dishes' })
   dishes: Dish[];
 }

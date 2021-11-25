@@ -38,12 +38,4 @@ export class Dish {
 
   @Column()
   quantity: number;
-
-  @ManyToMany(() => Menu)
-  @JoinTable()
-  menus: Menu[];
-
-  @ManyToMany(() => Ingredient)
-  @JoinTable()
-  ingredients: Ingredient[];
 }

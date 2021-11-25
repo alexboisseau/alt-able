@@ -33,6 +33,6 @@ export class Ingredient {
   origin: string;
 
   @ManyToMany(() => Dish)
-  @JoinTable()
+  @JoinTable({ name: 'dishes_ingredients' })
   dishes: Dish[];
 }
