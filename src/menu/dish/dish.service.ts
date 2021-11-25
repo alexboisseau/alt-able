@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DishEntity } from 'src/database/entities';
-import { CreateDishDto } from 'src/dtos';
+import { CreateDishDto, UpdateDishDto } from 'src/dtos';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -20,5 +20,9 @@ export class DishService {
 
   public async getDishs() {
     return this.repository.find();
+  }
+
+  public async update(id, updateDishDto: UpdateDishDto) {
+    return this.repository.update(id, updateDishDto);
   }
 }

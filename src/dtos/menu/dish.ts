@@ -34,6 +34,12 @@ export class CreateDishDto {
   public ingredients!: Id[];
 }
 
+export class UpdateDishDto {
+  @IsNotEmpty()
+  @IsNumber()
+  public quantity!: number;
+}
+
 export class DishDto extends CreateDishDto {
   @Type(() => IngredientDto)
   public declare ingredients: IngredientDto[];

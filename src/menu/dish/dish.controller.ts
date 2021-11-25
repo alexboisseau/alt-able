@@ -1,5 +1,5 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
-import { CreateDishDto } from '../../../src/dtos/menu/dish';
+import { Controller, Post, Put, Body, Get, Param } from '@nestjs/common';
+import { CreateDishDto, UpdateDishDto } from '../../../src/dtos/menu/dish';
 import { DishService } from './dish.service';
 
 @Controller('menu')
@@ -14,5 +14,10 @@ export class DishController {
   @Get('/dishs')
   async getDishs() {
     return this.dishService.getDishs();
+  }
+
+  @Put('/dish/:id')
+  update(@Param('id') id: string, @Body() updateDishDto: UpdateDishDto) {
+    return this.dishService.update(+id, updateDishDto);
   }
 }
