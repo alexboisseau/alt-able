@@ -6,7 +6,7 @@ import {
   JoinTable,
   OneToMany,
 } from 'typeorm';
-import { Table } from './table.entity';
+import { TableEntity } from './table.entity';
 import { Service } from './service.entity';
 
 @Entity()
@@ -20,9 +20,9 @@ export class SeatingTable {
   @Column('text')
   description: string;
 
-  @ManyToMany(() => Table)
+  @ManyToMany(() => TableEntity)
   @JoinTable()
-  tableIds: Table[];
+  tableIds: TableEntity[];
 
   @OneToMany(() => Service, (service) => service.id)
   services: Service[];

@@ -5,7 +5,7 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { Table } from './table.entity';
+import { TableEntity } from './table.entity';
 import { Service } from './service.entity';
 
 @Entity()
@@ -16,9 +16,9 @@ export class Ticket {
   @Column('decimal', { precision: 5, scale: 2 })
   price: number;
 
-  @OneToOne(() => Table)
+  @OneToOne(() => TableEntity)
   @JoinColumn()
-  tableId: Table;
+  tableId: TableEntity;
 
   @OneToOne(() => Service)
   @JoinColumn()
