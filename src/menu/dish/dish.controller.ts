@@ -27,8 +27,8 @@ export class DishController {
     return result;
   }
 
-  @Get('/dishs')
-  async getDishs() {
-    return this.dishService.getDishs();
+  @Get('/dishes')
+  async getDishes() {
+    return this.dishService.getDishes();
   }
 }
