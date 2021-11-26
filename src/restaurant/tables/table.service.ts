@@ -21,11 +21,27 @@ export class RestaurantTableService {
     return await this.repository.save(table);
   }
 
-  public async list(): Promise<RestaurantTableDto[]> {
+  public async list(): Promise<TableEntity[]> {
     return await this.repository.find();
   }
 
-  public async get(id: string): Promise<RestaurantTableDto> {
+  public async get(id: string): Promise<TableEntity> {
     return await this.repository.findOneOrFail(id);
+  }
+
+  public async update(
+    id: string,
+    itemUpdated: TableEntity,
+  ): Promise<TableEntity> {
+    let item = await this.repository.findOneOrFail(id);
+    item = { ...itemUpdated, id };
+    await this.repository.save(item);
+
+    return this.get(id);
+  }
+
+  public async destroy(id: string): Promise<void> {
+    const item = await this.repository.findOneOrFail(id);
+    await this.repository.remove(item);
   }
 }
