@@ -15,16 +15,14 @@ export class DishController {
 
   @Post('/dish')
   async create(@Body() createDishDto: CreateDishDto) {
-    const result = await this.dishService.create(createDishDto);
-
-    if (result === false) {
+    try {
+      return await this.dishService.create(createDishDto);
+    } catch {
       throw new HttpException(
         `${createDishDto.name} already exists`,
         HttpStatus.BAD_REQUEST,
       );
     }
-
-    return result;
   }
 
   @Get('/dishes')

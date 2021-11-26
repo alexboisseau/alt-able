@@ -7,7 +7,7 @@ import {
   IsNumber,
   IsString,
 } from 'class-validator';
-import { DishTypeEnum } from '../../database/entities/menu/dish.entity';
+import { DishTypeEnum } from '../../database/entities/restaurant-menu/dish.entity';
 import { Id } from '../utils';
 import { IngredientDto } from './ingredient';
 

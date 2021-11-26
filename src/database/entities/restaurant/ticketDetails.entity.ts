@@ -5,8 +5,8 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { DishEntity } from '../menu/dish.entity';
-import { MenuEntity } from '../menu/menu.entity';
+import { DishEntity } from '../restaurant-menu/dish.entity';
+import { MenuEntity } from '../restaurant-menu/menu.entity';
 import { Ticket } from './ticket.entity';
 
 @Entity()
