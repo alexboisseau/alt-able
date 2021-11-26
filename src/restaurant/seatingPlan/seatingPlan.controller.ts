@@ -7,6 +7,7 @@ import {
   Put,
   Delete,
 } from '@nestjs/common';
+import { SeatingPlanEntity } from 'src/database/entities';
 import {
   CreateRestaurantSeatingPlanDto,
   RestaurantSeatingPlanDto,
@@ -30,8 +31,10 @@ export class RestaurantSeatingPlanController {
   }
 
   @Get('/:id')
-  async get(@Param() id: string): Promise<RestaurantSeatingPlanDto> {
-    return this.seatingTableService.get(id);
+  async get(
+    @Param() key: Pick<SeatingPlanEntity, 'id'>,
+  ): Promise<RestaurantSeatingPlanDto> {
+    return this.seatingTableService.get(key.id);
   }
 
   @Put('/:id')

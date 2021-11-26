@@ -1,3 +1,4 @@
+import { TableEntity } from './../../database/entities/restaurant/table.entity';
 import {
   Controller,
   Post,
@@ -25,8 +26,8 @@ export class RestaurantTableController {
   }
 
   @Get('/:id')
-  async get(@Param() id: string) {
-    return this.tableService.get(id);
+  async get(@Param() key: Pick<TableEntity, 'id'>) {
+    return this.tableService.get(key.id);
   }
 
   @Put('/:id')

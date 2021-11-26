@@ -1,9 +1,10 @@
 import { CreateRestaurantSeatingPlanDto } from 'src/dtos';
+import camelCase from 'camelcase';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SeatingPlanEntity } from 'src/database/entities';
 
-import { Repository } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 
 @Injectable()
 export class RestaurantSeatingPlanService {
@@ -20,11 +21,19 @@ export class RestaurantSeatingPlanService {
   }
 
   public async list(): Promise<SeatingPlanEntity[]> {
-    return await this.repository.find();
+    let query = this.repository.createQueryBuilder('entity');
+
+    query = this.loadRelations(query, ['tables']);
+    return query.getMany();
   }
 
   public async get(id: string): Promise<SeatingPlanEntity> {
-    return await this.repository.findOneOrFail(id);
+    let query = this.repository.createQueryBuilder('entity');
+
+    query = this.loadRelations(query, ['tables']);
+    query = query.where('entity.id = :id', { id });
+
+    return query.getOneOrFail();
   }
 
   public async update(
@@ -41,5 +50,39 @@ export class RestaurantSeatingPlanService {
   public async destroy(id: string): Promise<void> {
     const item = await this.repository.findOneOrFail(id);
     await this.repository.remove(item);
+  }
+
+  protected loadRelations<T>(
+    query: SelectQueryBuilder<T>,
+    relations: string[],
+  ): SelectQueryBuilder<T> {
+    let modifiedQuery = query;
+
+    relations.forEach((relation) => {
+      const [selectedRelation, alias] = this.parsePropertyPath(relation);
+
+      modifiedQuery = modifiedQuery.leftJoinAndSelect(selectedRelation, alias);
+    });
+
+    return modifiedQuery;
+  }
+
+  protected parsePropertyPath(path: string): [string, string] {
+    const alias = camelCase(path);
+    let ormPath: [string, string];
+    // eslint-disable-next-line prefer-const
+    let [parentRelation, relation] = path.split('.').slice(-2);
+
+    if (relation === undefined) {
+      ormPath = [`entity.${parentRelation}`, alias];
+    } else {
+      const parentAliasArray = path.split('.');
+      parentAliasArray.pop();
+      const parentAlias = camelCase(parentAliasArray.join('.'));
+
+      ormPath = [`${parentAlias}.${relation}`, alias];
+    }
+
+    return ormPath;
   }
 }
