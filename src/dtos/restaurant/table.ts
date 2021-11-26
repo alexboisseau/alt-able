@@ -1,3 +1,4 @@
+import { RestaurantSeatingPlanDto } from './seatingPlan';
 export class CreateRestaurantTableDto {
   public status!: string;
 
@@ -7,5 +8,7 @@ export class CreateRestaurantTableDto {
 }
 
 export class RestaurantTableDto extends CreateRestaurantTableDto {
+  public declare seatingPlans: RestaurantSeatingPlanDto[];
+
   public id!: string;
 }

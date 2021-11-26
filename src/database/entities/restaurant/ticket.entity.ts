@@ -6,7 +6,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { TableEntity } from './table.entity';
-import { Service } from './service.entity';
+import { ServiceEntity } from './service.entity';
 
 @Entity()
 export class Ticket {
@@ -20,7 +20,7 @@ export class Ticket {
   @JoinColumn()
   tableId: TableEntity;
 
-  @OneToOne(() => Service)
-  @JoinColumn()
-  serviceId: Service;
+  // @OneToOne(() => ServiceEntity, (item) => item.tickets)
+  // @JoinColumn()
+  // service: ServiceEntity;
 }

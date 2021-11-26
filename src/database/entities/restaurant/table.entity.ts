@@ -6,7 +6,7 @@ import {
   JoinTable,
 } from 'typeorm';
 import { BaseEntity } from '../utils';
-import { SeatingTable } from './seatingTables.entity';
+import { SeatingPlanEntity } from './seatingPlan.entity';
 
 @Entity('Table')
 export class TableEntity extends BaseEntity {
@@ -28,7 +28,7 @@ export class TableEntity extends BaseEntity {
   })
   number: number;
 
-  @ManyToMany(() => SeatingTable, (item) => item.tables)
+  @ManyToMany(() => SeatingPlanEntity, (item) => item.tables)
   @JoinTable()
-  public SeatingTables: SeatingTable[];
+  public seatingPlans: SeatingPlanEntity[];
 }

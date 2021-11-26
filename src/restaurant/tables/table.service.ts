@@ -19,10 +19,10 @@ export class RestaurantTableService {
   }
 
   public async list(): Promise<RestaurantTableDto[]> {
-    return this.repository.find();
+    return await this.repository.find();
   }
 
   public async get(id: string): Promise<RestaurantTableDto> {
-    return this.repository.findOneOrFail(id);
+    return await this.repository.findOneOrFail(id);
   }
 }
