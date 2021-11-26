@@ -13,22 +13,24 @@ import { BaseEntity } from '../utils';
 @Entity('SeatingPlan')
 export class SeatingPlanEntity extends BaseEntity {
   @Column({
+    name: 'name',
+    type: 'varchar',
+    unique: true,
+  })
+  public name!: string;
+
+  @Column({
     name: 'dateAdd',
     type: 'timestamp with time zone',
   })
   public dateAdd!: string;
 
   @Column({
-    name: 'name',
-    type: 'varchar',
-  })
-  public name!: string;
-
-  @Column({
     name: 'description',
     type: 'varchar',
+    nullable: true,
   })
-  public description!: string;
+  public description?: string | null;
 
   @ManyToMany(() => TableEntity, (item) => item.seatingPlans)
   public tables: TableEntity[];
