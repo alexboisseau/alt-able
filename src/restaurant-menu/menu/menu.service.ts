@@ -11,6 +11,9 @@ export class MenuService {
   ) {}
 
   async getMenus() {
-    return this.repository.find();
+    return this.repository
+      .createQueryBuilder('menu')
+      .innerJoin('menu.dishes', 'dish')
+      .getMany();
   }
 }
