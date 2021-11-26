@@ -1,12 +1,21 @@
 import { Controller, Get } from '@nestjs/common';
 import { DishService } from './dish/dish.service';
+import { MenuService } from './menu/menu.service';
 
 @Controller('menu')
 export class RestaurantMenuController {
-  constructor(private dishService: DishService) {}
+  constructor(
+    private dishService: DishService,
+    private menuService: MenuService,
+  ) {}
 
   @Get()
   async getRestaurantMenu() {
-    return this.dishService.getDishes();
+    try {
+      const dishes = await this.dishService.getAvailableDishes();
+      const menus = await this.menuService.getMenus();
+
+      return { dishes, menus };
+    } catch (error) {}
   }
 }
