@@ -18,6 +18,10 @@ export class DishController {
 
   @Put('/dish/:id')
   update(@Param('id') id: string, @Body() updateDishDto: UpdateDishDto) {
-    return this.dishService.update(id, updateDishDto);
+    try {
+      return this.dishService.update(id, updateDishDto);
+    } catch {
+      throw 'This dish doesn\'t exists';
+    }
   }
 }
