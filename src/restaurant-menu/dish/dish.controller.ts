@@ -6,7 +6,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { CreateDishDto } from '../../../src/dtos/menu/dish';
+import { CreateDishDto } from '../../dtos/restaurant-menu/dish';
 import { DishService } from './dish.service';
 
 @Controller('menu')
