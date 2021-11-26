@@ -4,18 +4,20 @@ import { BaseEntity } from '../utils/base.entity';
 import { Type } from 'class-transformer';
 import { IngredientEntity } from './ingredient.entity';
 
-export type DishType =
-  | 'Apéritif'
-  | 'Entrée'
-  | 'Plat principal'
-  | 'Dessert'
-  | 'Boisson';
+export enum DishTypeEnum {
+  APERETIF = 'Apéritif',
+  ENTREE = 'Entrée',
+  PLAT_PRINCIPAL = 'Plat principal',
+  DESSERT = 'Dessert',
+  BOISSON = 'Boisson',
+}
 
 @Entity()
 export class DishEntity extends BaseEntity {
   @Column({
     name: 'name',
     type: 'varchar',
+    unique: true,
   })
   public name: string;
 
@@ -25,13 +27,8 @@ export class DishEntity extends BaseEntity {
   })
   public description: string;
 
-  @Column({
-    type: 'enum',
-    enum: ['Apéritif', 'Entrée', 'Plat principal', 'Dessert', 'Boisson'],
-    default: 'Apéritif',
-    name: 'type',
-  })
-  public type: DishType;
+  @Column('enum', { enum: DishTypeEnum, name: 'type' })
+  public type: DishTypeEnum;
 
   @Column('decimal', { precision: 5, scale: 2 })
   public price: number;

@@ -1,4 +1,13 @@
-import { Controller, Post, Put, Body, Get, Param, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Put,
+  Param,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { CreateDishDto, UpdateDishDto } from '../../../src/dtos/menu/dish';
 import { DishService } from './dish.service';
 
@@ -8,12 +17,19 @@ export class DishController {
 
   @Post('/dish')
   async create(@Body() createDishDto: CreateDishDto) {
-    return this.dishService.create(createDishDto);
+    try {
+      return await this.dishService.create(createDishDto);
+    } catch {
+      throw new HttpException(
+        `${createDishDto.name} already exists`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
-  @Get('/dishs')
-  async getDishs() {
-    return this.dishService.getDishs();
+  @Get('/dishes')
+  async getDishes() {
+    return this.dishService.getDishes();
   }
 
   @Put('/dish/:id')

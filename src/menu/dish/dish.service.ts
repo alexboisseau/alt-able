@@ -18,7 +18,7 @@ export class DishService {
     return dish;
   }
 
-  public async getDishs() {
+  public async getDishes() {
     return this.repository.find();
   }
 
