@@ -1,4 +1,4 @@
-import { Controller, Post, Put, Body, Get, Param } from '@nestjs/common';
+import { Controller, Post, Put, Body, Get, Param, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateDishDto, UpdateDishDto } from '../../../src/dtos/menu/dish';
 import { DishService } from './dish.service';
 
@@ -17,11 +17,11 @@ export class DishController {
   }
 
   @Put('/dish/:id')
-  update(@Param('id') id: string, @Body() updateDishDto: UpdateDishDto) {
-    try {
-      return this.dishService.update(id, updateDishDto);
-    } catch {
-      throw 'This dish doesn\'t exists';
+  async update(@Param('id') id: string, @Body() updateDishDto: UpdateDishDto) {
+    const dish = await this.dishService.update(id, updateDishDto);
+
+    if(!dish) {
+      throw new HttpException('This dish doesn\'t exists and can\'t be update', HttpStatus.BAD_REQUEST);
     }
   }
 }

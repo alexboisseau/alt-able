@@ -23,6 +23,15 @@ export class DishService {
   }
 
   public async update(id, updateDishDto: UpdateDishDto) {
-    return this.repository.update(id, updateDishDto);
+    const dish = this.repository.findOne({
+      where: { id: id }
+    });
+
+    if(!dish) {
+      return 'false';
+    }
+
+    this.repository.update(id, updateDishDto);
+    return dish;
   }
 }
