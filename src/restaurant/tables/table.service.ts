@@ -13,8 +13,11 @@ export class RestaurantTableService {
     private readonly repository: Repository<TableEntity>,
   ) {}
 
-  public async create(createTableDto: CreateRestaurantTableDto) {
-    const table = this.repository.create(createTableDto);
+  public async create(item: CreateRestaurantTableDto) {
+    if (item.maxSize < 0) {
+      throw new Error('max size is negative, it must be positive!');
+    }
+    const table = this.repository.create(item);
     return await this.repository.save(table);
   }
 

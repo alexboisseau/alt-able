@@ -1,10 +1,5 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
+import { Min } from 'class-validator';
+import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
 import { BaseEntity } from '../utils';
 import { SeatingPlanEntity } from './seatingPlan.entity';
 
@@ -20,11 +15,13 @@ export class TableEntity extends BaseEntity {
     name: 'size',
     type: 'varchar',
   })
-  size: number;
+  @Min(0)
+  maxSize: number;
 
   @Column({
     name: 'number',
     type: 'varchar',
+    unique: true,
   })
   number: number;
 
