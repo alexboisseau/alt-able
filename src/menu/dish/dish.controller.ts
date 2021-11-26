@@ -18,6 +18,6 @@ export class DishController {
 
   @Put('/dish/:id')
   update(@Param('id') id: string, @Body() updateDishDto: UpdateDishDto) {
-    return this.dishService.update(+id, updateDishDto);
+    return this.dishService.update(id, updateDishDto);
   }
 }
