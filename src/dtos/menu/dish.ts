@@ -7,7 +7,7 @@ import {
   IsNumber,
   IsString,
 } from 'class-validator';
-import { DishType } from '../../database/entities/menu/dish.entity';
+import { DishTypeEnum } from '../../database/entities/menu/dish.entity';
 import { Id } from '../utils';
 import { IngredientDto } from './ingredient';
 
@@ -26,7 +26,8 @@ export class CreateDishDto {
   @IsNumber()
   public price!: number;
 
-  public type!: DishType;
+  @IsEnum(DishTypeEnum)
+  public type!: DishTypeEnum;
 
   @IsArray()
   @IsNotEmpty()
