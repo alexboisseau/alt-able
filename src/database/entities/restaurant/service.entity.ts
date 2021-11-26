@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { SeatingTable } from './seatingTables.entity';
+import { SeatingPlanEntity } from './seatingPlan.entity';
 
-@Entity()
-export class Service {
+@Entity('Service')
+export class ServiceEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -12,6 +12,6 @@ export class Service {
   @Column()
   done: boolean;
 
-  @ManyToOne(() => SeatingTable, (seatingTable) => seatingTable.id)
-  seatingTableId: SeatingTable;
+  // @ManyToOne(() => SeatingPlanEntity, (seatingTable) => seatingTable.services)
+  // seatingPlan: SeatingPlanEntity;
 }
