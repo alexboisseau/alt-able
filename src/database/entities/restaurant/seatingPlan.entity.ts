@@ -1,13 +1,5 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToMany,
-  JoinTable,
-  OneToMany,
-} from 'typeorm';
+import { Entity, Column, ManyToMany, CreateDateColumn } from 'typeorm';
 import { TableEntity } from './table.entity';
-import { ServiceEntity } from './service.entity';
 import { BaseEntity } from '../utils';
 
 @Entity('SeatingPlan')
@@ -19,11 +11,11 @@ export class SeatingPlanEntity extends BaseEntity {
   })
   public name!: string;
 
-  @Column({
-    name: 'dateAdd',
-    type: 'timestamp with time zone',
+  @CreateDateColumn({
+    name: 'createdAt',
+    type: 'time with time zone',
   })
-  public dateAdd!: string;
+  createdAt: string;
 
   @Column({
     name: 'description',

@@ -1,4 +1,3 @@
-import { RestaurantTableDto } from './../../dtos/restaurant/table';
 import { CreateRestaurantTableDto } from 'src/dtos';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
