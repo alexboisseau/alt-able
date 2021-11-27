@@ -20,7 +20,7 @@ export class MenuEntity extends BaseEntity {
   @Column('decimal', { precision: 5, scale: 2 })
   public price: number;
 
-  @ManyToMany(() => DishEntity, (item) => item.menus)
+  @ManyToMany(() => DishEntity, (dish) => dish.menus)
   @Type(() => DishEntity)
   public dishes: DishEntity[];
 }
