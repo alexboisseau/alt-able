@@ -16,9 +16,6 @@ export class CreateDishDto {
   @IsString()
   public name!: string;
 
-  @IsNumber()
-  public quantity!: number;
-
   @IsString()
   @IsNotEmpty()
   public description!: string;

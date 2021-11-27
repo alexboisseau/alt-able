@@ -35,7 +35,8 @@ export class DishEntity extends BaseEntity {
 
   @Column({
     name: 'quantity',
-    type: 'varchar',
+    type: 'int',
+    default: 0,
   })
   public quantity: number;
 
