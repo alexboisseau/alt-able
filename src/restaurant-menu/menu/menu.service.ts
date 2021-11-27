@@ -13,7 +13,7 @@ export class MenuService {
   async getMenus() {
     return this.repository
       .createQueryBuilder('menu')
-      .innerJoin('menu.dishes', 'dish')
+      .leftJoinAndSelect('menu.dishes', 'dish')
       .getMany();
   }
 }
