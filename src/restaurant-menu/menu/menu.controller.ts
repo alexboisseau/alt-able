@@ -1,4 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpException,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import { CreateMenuDto } from 'src/dtos/restaurant-menu';
 import { MenuService } from './menu.service';
 
@@ -8,8 +14,13 @@ export class MenuController {
 
   @Post()
   async create(@Body() createMenuDto: CreateMenuDto) {
-    const newMenu = await this.menuService.createMenu(createMenuDto);
-
-    return newMenu;
+    try {
+      return await this.menuService.createMenu(createMenuDto);
+    } catch {
+      throw new HttpException(
+        `${createMenuDto.name} already exists`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }

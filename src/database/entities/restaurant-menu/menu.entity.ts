@@ -8,6 +8,7 @@ export class MenuEntity extends BaseEntity {
   @Column({
     name: 'name',
     type: 'varchar',
+    unique: true,
   })
   public name: string;
 
