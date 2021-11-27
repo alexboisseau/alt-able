@@ -33,8 +33,8 @@ export class IngredientEntity extends BaseEntity {
   })
   public origin: string;
 
-  @ManyToMany(() => DishEntity, (item) => item.ingredients)
-  @JoinTable({ name: 'dishes_ingredients' })
+  @ManyToMany(() => DishEntity, (dish) => dish.ingredients)
+  @JoinTable()
   @Type(() => DishEntity)
   public dishes: DishEntity[];
 }
