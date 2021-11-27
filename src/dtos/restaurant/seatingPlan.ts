@@ -1,14 +1,18 @@
 import { RestaurantTableDto } from './table';
 import { Type } from 'class-transformer';
 import { Id } from '../utils';
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateRestaurantSeatingPlanDto {
-  public dateAdd!: string;
-
+  @IsNotEmpty()
+  @IsString()
   public name!: string;
 
-  public description!: string;
+  @IsString()
+  public description?: string | null;
 
+  @IsNotEmpty()
+  @IsArray()
   @Type(() => Id)
   public tables!: Id[];
 }
@@ -16,6 +20,8 @@ export class CreateRestaurantSeatingPlanDto {
 export class RestaurantSeatingPlanDto extends CreateRestaurantSeatingPlanDto {
   @Type(() => RestaurantTableDto)
   public tables!: RestaurantTableDto[];
+
+  public createdAt!: string;
 
   public id!: string;
 }

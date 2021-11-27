@@ -1,4 +1,13 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Put,
+  Delete,
+} from '@nestjs/common';
+import { SeatingPlanEntity } from 'src/database/entities';
 import {
   CreateRestaurantSeatingPlanDto,
   RestaurantSeatingPlanDto,
@@ -22,7 +31,19 @@ export class RestaurantSeatingPlanController {
   }
 
   @Get('/:id')
-  async get(@Param() id: string): Promise<RestaurantSeatingPlanDto> {
-    return this.seatingTableService.get(id);
+  async get(
+    @Param() key: Pick<SeatingPlanEntity, 'id'>,
+  ): Promise<RestaurantSeatingPlanDto> {
+    return this.seatingTableService.get(key.id);
+  }
+
+  @Put('/:id')
+  async update(@Param() id: string, @Body() item: RestaurantSeatingPlanDto) {
+    return this.seatingTableService.update(id, item);
+  }
+
+  @Delete('/:id')
+  async delete(@Param() id: string) {
+    return this.seatingTableService.destroy(id);
   }
 }

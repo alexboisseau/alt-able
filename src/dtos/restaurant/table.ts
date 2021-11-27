@@ -1,10 +1,17 @@
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { RestaurantSeatingPlanDto } from './seatingPlan';
 export class CreateRestaurantTableDto {
+  @IsNotEmpty()
+  @IsString()
   public status!: string;
 
+  @IsNumber()
+  @IsNotEmpty()
   public number!: number;
 
-  public size!: number;
+  @IsNumber()
+  @IsNotEmpty()
+  public maxSize!: number;
 }
 
 export class RestaurantTableDto extends CreateRestaurantTableDto {

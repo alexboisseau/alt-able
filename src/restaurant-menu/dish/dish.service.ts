@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DishEntity } from 'src/database/entities';
 import { CreateDishDto, UpdateDishDto } from 'src/dtos';
-import { Repository } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
 
 @Injectable()
 export class DishService {
@@ -28,10 +28,14 @@ export class DishService {
     });
 
     if(!dish) {
-      return 'false';
+      return false;
     }
 
     this.repository.update(id, updateDishDto);
     return dish;
+  }
+
+  public async getAvailableDishes() {
+    return this.repository.find({ where: { quantity: MoreThan(0) } });
   }
 }

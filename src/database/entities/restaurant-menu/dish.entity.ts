@@ -39,12 +39,12 @@ export class DishEntity extends BaseEntity {
   })
   public quantity: number;
 
-  @ManyToMany(() => MenuEntity, (item) => item.dishes)
+  @ManyToMany(() => MenuEntity, (menu) => menu.dishes)
+  @JoinTable()
   @Type(() => MenuEntity)
   public menus!: MenuEntity[];
 
-  @ManyToMany(() => IngredientEntity, (item) => item.dishes)
-  @JoinTable({ name: 'menus_dishes' })
+  @ManyToMany(() => IngredientEntity, (ingredient) => ingredient.dishes)
   @Type(() => IngredientEntity)
   public ingredients!: IngredientEntity[];
 }
