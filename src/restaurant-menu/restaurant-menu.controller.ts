@@ -16,8 +16,6 @@ export class RestaurantMenuController {
       const menus = await this.menuService.getMenus();
 
       return { dishes, menus };
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 }

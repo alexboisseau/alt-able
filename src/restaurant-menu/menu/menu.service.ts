@@ -19,9 +19,21 @@ export class MenuService {
   }
 
   async getMenus() {
-    return this.repository
-      .createQueryBuilder('menu')
-      .leftJoinAndSelect('menu.dishes', 'dish')
-      .getMany();
+    const result = await this.repository.find({ relations: ['dishes'] });
+
+    const availablesMenu = result.filter((menu) => {
+      let result = true;
+
+      menu.dishes.forEach((dish) => {
+        if (dish.quantity === 0) {
+          result = false;
+          return;
+        }
+      });
+
+      return result;
+    });
+
+    return availablesMenu;
   }
 }
