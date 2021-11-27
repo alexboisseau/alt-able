@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpException,
   HttpStatus,
   Post,
@@ -8,11 +9,11 @@ import {
 import { CreateMenuDto } from 'src/dtos/restaurant-menu';
 import { MenuService } from './menu.service';
 
-@Controller('restaurant-menu/menu')
+@Controller('restaurant-menu/')
 export class MenuController {
   constructor(private readonly menuService: MenuService) {}
 
-  @Post()
+  @Post('menu')
   async create(@Body() createMenuDto: CreateMenuDto) {
     try {
       return await this.menuService.createMenu(createMenuDto);
@@ -22,5 +23,10 @@ export class MenuController {
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  @Get('menus')
+  async getMenus() {
+    return await this.menuService.getMenus();
   }
 }

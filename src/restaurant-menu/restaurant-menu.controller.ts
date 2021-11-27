@@ -13,7 +13,7 @@ export class RestaurantMenuController {
   async getRestaurantMenu() {
     try {
       const dishes = await this.dishService.getAvailableDishes();
-      const menus = await this.menuService.getMenus();
+      const menus = await this.menuService.getAvailablesMenus();
 
       return { dishes, menus };
     } catch (error) {}
