@@ -22,7 +22,7 @@ export class DishService {
   public async getDishes() {
     let query = this.repository.createQueryBuilder('entity');
 
-    query = this.loadRelations(query, ['seatingPlans']);
+    query = this.loadRelations(query, ['menus']);
     return query.getMany();
   }
 
