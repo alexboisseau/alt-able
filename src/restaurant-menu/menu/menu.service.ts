@@ -23,7 +23,7 @@ export class MenuService {
   }
 
   async getAvailablesMenus() {
-    const result = await this.repository.find({ relations: ['dishes'] });
+    const result = await this.getMenus();
 
     const availablesMenu = result.filter((menu) => {
       let result = true;
