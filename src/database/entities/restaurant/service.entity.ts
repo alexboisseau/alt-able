@@ -1,5 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { SeatingPlanEntity } from './seatingPlan.entity';
 
 @Entity('Service')
 export class ServiceEntity {
