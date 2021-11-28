@@ -6,7 +6,6 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { TableEntity } from './table.entity';
-import { ServiceEntity } from './service.entity';
 
 @Entity()
 export class Ticket {
