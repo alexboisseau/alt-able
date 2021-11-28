@@ -36,15 +36,14 @@ export class DishService {
   }
 
   public async update(id, updateDishDto: UpdateDishDto) {
-    const dish = this.repository.findOne({
+    const dish = await this.repository.findOneOrFail({
       where: { id: id },
     });
 
-    if (!dish) {
-      return false;
-    }
-
     this.repository.update(id, updateDishDto);
+
+    // Permet de renvoyer l'entité avec la bonne quantité sans refaire un appel à la db
+    dish.quantity = updateDishDto.quantity;
     return dish;
   }
 

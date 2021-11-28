@@ -40,15 +40,14 @@ export class DishController {
 
   @Put('/dish/:id')
   async update(@Param('id') id: string, @Body() updateDishDto: UpdateDishDto) {
-    const dish = await this.dishService.update(id, updateDishDto);
-
-    if (!dish) {
+    try {
+      const dish = await this.dishService.update(id, updateDishDto);
+      return dish;
+    } catch {
       throw new HttpException(
         "This dish doesn't exists and can't be update",
         HttpStatus.BAD_REQUEST,
       );
     }
-
-    return dish;
   }
 }
