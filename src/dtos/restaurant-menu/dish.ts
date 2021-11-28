@@ -5,6 +5,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
 } from 'class-validator';
 import { DishTypeEnum } from '../../database/entities/restaurant-menu/dish.entity';
@@ -16,15 +17,16 @@ export class CreateDishDto {
   @IsString()
   public name!: string;
 
-  @IsNumber()
-  public quantity!: number;
-
   @IsString()
   @IsNotEmpty()
   public description!: string;
 
   @IsNumber()
   public price!: number;
+
+  @IsNumber()
+  @IsOptional()
+  public quantity!: number;
 
   @IsEnum(DishTypeEnum)
   public type!: DishTypeEnum;
