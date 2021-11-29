@@ -7,6 +7,8 @@ import {
   Param,
   Put,
   Delete,
+  HttpStatus,
+  HttpException,
 } from '@nestjs/common';
 import { CreateRestaurantTableDto, RestaurantTableDto } from '../../dtos';
 import { RestaurantTableService } from './table.service';
@@ -17,7 +19,14 @@ export class RestaurantTableController {
 
   @Post('/')
   async create(@Body() createTableDto: CreateRestaurantTableDto) {
-    return this.tableService.create(createTableDto);
+    try {
+      return await this.tableService.create(createTableDto);
+    } catch {
+      throw new HttpException(
+        `Table ${createTableDto.number} already exists`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   @Get('/')

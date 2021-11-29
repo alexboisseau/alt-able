@@ -17,8 +17,11 @@ export class RestaurantTableService {
     if (item.maxSize < 0) {
       throw new Error('max size is negative, it must be positive!');
     }
-    const { id } = await this.repository.save(item);
-    return this.get(id);
+
+    const table = this.repository.create(item);
+    await this.repository.save(table);
+
+    return table;
   }
 
   public async list(): Promise<TableEntity[]> {
