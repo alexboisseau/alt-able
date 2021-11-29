@@ -1,7 +1,7 @@
 import { RestaurantTableDto } from './table';
 import { Type } from 'class-transformer';
 import { Id } from '../utils';
-import { IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateRestaurantSeatingPlanDto {
   @IsNotEmpty()
@@ -9,6 +9,7 @@ export class CreateRestaurantSeatingPlanDto {
   public name!: string;
 
   @IsString()
+  @IsOptional()
   public description?: string | null;
 
   @IsNotEmpty()

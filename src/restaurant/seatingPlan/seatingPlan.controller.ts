@@ -6,6 +6,8 @@ import {
   Param,
   Put,
   Delete,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { SeatingPlanEntity } from 'src/database/entities';
 import {
@@ -38,8 +40,18 @@ export class RestaurantSeatingPlanController {
   }
 
   @Put('/:id')
-  async update(@Param() id: string, @Body() item: RestaurantSeatingPlanDto) {
-    return this.seatingTableService.update(id, item);
+  async update(
+    @Param('id') id: string,
+    @Body() item: RestaurantSeatingPlanDto,
+  ) {
+    try {
+      return await this.seatingTableService.update(id, item);
+    } catch (error) {
+      throw new HttpException(
+        'An error is occured. Please, check that the name property is correct and not assigned to another table',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   @Delete('/:id')
