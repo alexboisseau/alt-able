@@ -16,8 +16,21 @@ export class RestaurantSeatingPlanService {
   public async create(
     item: CreateRestaurantSeatingPlanDto,
   ): Promise<SeatingPlanEntity> {
+    await this.closeSeatingPlan();
+
     const { id } = await this.repository.save(item);
+
     return this.get(id);
+  }
+
+  async closeSeatingPlan() {
+    const activeSeatingPlan = await this.repository.findOne({
+      where: { isActive: true },
+    });
+    if (activeSeatingPlan) {
+      activeSeatingPlan.isActive = false;
+      await this.repository.save(activeSeatingPlan);
+    }
   }
 
   public async list(): Promise<SeatingPlanEntity[]> {
@@ -34,6 +47,27 @@ export class RestaurantSeatingPlanService {
     query = query.where('entity.id = :id', { id });
 
     return query.getOneOrFail();
+  }
+
+  async getLastSeatingPlan() {
+    return this.repository.findOne({ order: { createdAt: 'DESC' } });
+  }
+
+  async getActiveSeatingPlan() {
+    return this.repository.findOne({ where: { isActive: true } });
+  }
+
+  async setCurrentSeatingPlan() {
+    let currentActivePlan = await this.getActiveSeatingPlan();
+    if (!currentActivePlan) {
+      currentActivePlan = await this.getLastSeatingPlan();
+      if (currentActivePlan) {
+        currentActivePlan.isActive = true;
+        this.repository.save(currentActivePlan);
+      }
+    }
+
+    return currentActivePlan;
   }
 
   public async update(
