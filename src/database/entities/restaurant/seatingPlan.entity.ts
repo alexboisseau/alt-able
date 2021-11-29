@@ -24,6 +24,12 @@ export class SeatingPlanEntity extends BaseEntity {
   })
   public description?: string | null;
 
+  @Column({
+    type: 'boolean',
+    default: true,
+  })
+  public isActive: boolean;
+
   @ManyToMany(() => TableEntity, (item) => item.seatingPlans)
   public tables: TableEntity[];
 

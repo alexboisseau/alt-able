@@ -14,12 +14,14 @@ import {
   CreateRestaurantSeatingPlanDto,
   RestaurantSeatingPlanDto,
 } from '../../dtos';
+import { RestaurantServiceService } from '../restaurant-service/restaurant-service.service';
 import { RestaurantSeatingPlanService } from './seatingPlan.service';
 
 @Controller('seating-plans')
 export class RestaurantSeatingPlanController {
   constructor(
     private readonly seatingTableService: RestaurantSeatingPlanService,
+    private readonly restaurantServiceService: RestaurantServiceService,
   ) {}
 
   @Post('/')
@@ -45,10 +47,17 @@ export class RestaurantSeatingPlanController {
     @Body() item: RestaurantSeatingPlanDto,
   ) {
     try {
+      const serviceIsActive =
+        await this.restaurantServiceService.getActiveService();
+      console.log('serviceIsActive', serviceIsActive);
+      if (serviceIsActive) {
+        throw new Error('Cannot edit a seating plan when a service is active.');
+      }
       return await this.seatingTableService.update(id, item);
     } catch (error) {
       throw new HttpException(
-        'An error is occured. Please, check that the name property is correct and not assigned to another table',
+        error?.message ||
+          'An error is occured. Please, check that the name property is correct and not assigned to another table',
         HttpStatus.BAD_REQUEST,
       );
     }
