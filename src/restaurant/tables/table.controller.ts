@@ -23,7 +23,7 @@ export class RestaurantTableController {
       return await this.tableService.create(createTableDto);
     } catch {
       throw new HttpException(
-        `${createTableDto.number} already exists`,
+        `Table ${createTableDto.number} already exists`,
         HttpStatus.BAD_REQUEST,
       );
     }
