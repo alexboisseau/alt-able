@@ -42,9 +42,10 @@ export class RestaurantSeatingPlanService {
   ): Promise<SeatingPlanEntity> {
     let item = await this.repository.findOneOrFail(id);
     item = { ...itemUpdated, id };
+
     await this.repository.save(item);
 
-    return this.get(id);
+    return item;
   }
 
   public async destroy(id: string): Promise<void> {
