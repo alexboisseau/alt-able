@@ -1,10 +1,10 @@
-import { CreateRestaurantTableDto } from 'src/dtos';
+import { CreateRestaurantTableDto, InstallCustomerDto } from 'src/dtos';
 import camelCase from 'camelcase';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TableEntity } from 'src/database/entities';
 
-import { Repository, SelectQueryBuilder } from 'typeorm';
+import { In, Repository, SelectQueryBuilder } from 'typeorm';
 
 @Injectable()
 export class RestaurantTableService {
@@ -22,6 +22,17 @@ export class RestaurantTableService {
     await this.repository.save(table);
 
     return table;
+  }
+
+  public async installCustomers(installCustomerDto: InstallCustomerDto) {
+    const table: TableEntity = await this.get(installCustomerDto.id);
+
+    // Check that the number is positiv
+    if (installCustomerDto.customersNumber < 1)
+      throw new Error('Sorry but the customersNumber cannot be less than 1');
+    // Check that the table is free
+    // Check that the customersNumber is not greater than capacity table
+    // Check that a service is started
   }
 
   public async list(): Promise<TableEntity[]> {

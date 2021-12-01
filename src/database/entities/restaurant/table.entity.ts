@@ -7,9 +7,10 @@ import { SeatingPlanEntity } from './seatingPlan.entity';
 export class TableEntity extends BaseEntity {
   @Column({
     name: 'status',
-    type: 'varchar',
+    type: 'boolean',
+    default: true,
   })
-  status: string;
+  isFree: boolean;
 
   @Column({
     name: 'size',

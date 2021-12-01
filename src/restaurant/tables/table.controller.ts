@@ -9,8 +9,13 @@ import {
   Delete,
   HttpStatus,
   HttpException,
+  Patch,
 } from '@nestjs/common';
-import { CreateRestaurantTableDto, RestaurantTableDto } from '../../dtos';
+import {
+  CreateRestaurantTableDto,
+  RestaurantTableDto,
+  InstallCustomerDto,
+} from '../../dtos';
 import { RestaurantTableService } from './table.service';
 
 @Controller('tables')
@@ -47,5 +52,14 @@ export class RestaurantTableController {
   @Delete('/:id')
   async delete(@Param() id: string) {
     return this.tableService.destroy(id);
+  }
+
+  @Patch('/customer-installation')
+  async installCustomers(@Body() installCustomerDto: InstallCustomerDto) {
+    try {
+      this.tableService.installCustomers(installCustomerDto);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 }
