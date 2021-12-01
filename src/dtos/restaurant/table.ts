@@ -1,4 +1,5 @@
 import { IsBoolean, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import { TableEntity } from 'src/database/entities';
 import { RestaurantSeatingPlanDto } from './seatingPlan';
 export class CreateRestaurantTableDto {
   @IsBoolean()
@@ -12,6 +13,9 @@ export class CreateRestaurantTableDto {
   @IsNumber()
   @IsNotEmpty()
   public maxSize!: number;
+
+  @IsOptional()
+  public installedCustomersNumber: number;
 }
 
 export class RestaurantTableDto extends CreateRestaurantTableDto {
@@ -23,4 +27,10 @@ export class RestaurantTableDto extends CreateRestaurantTableDto {
 export class InstallCustomerDto {
   public id: string;
   public customersNumber: number;
+}
+
+export class InstallCustomerResponse {
+  public error?: boolean;
+  public message?: string;
+  public table?: TableEntity;
 }

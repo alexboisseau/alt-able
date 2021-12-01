@@ -57,7 +57,18 @@ export class RestaurantTableController {
   @Patch('/customer-installation')
   async installCustomers(@Body() installCustomerDto: InstallCustomerDto) {
     try {
-      this.tableService.installCustomers(installCustomerDto);
+      const installCustomerResponse = await this.tableService.installCustomers(
+        installCustomerDto,
+      );
+
+      if (installCustomerResponse.error) {
+        throw new HttpException(
+          installCustomerResponse.message,
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      return installCustomerResponse;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

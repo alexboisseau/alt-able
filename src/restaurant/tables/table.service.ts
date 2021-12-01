@@ -4,13 +4,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TableEntity } from 'src/database/entities';
 
-import { In, Repository, SelectQueryBuilder } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
+import { RestaurantServiceService } from '../restaurant-service/restaurant-service.service';
 
 @Injectable()
 export class RestaurantTableService {
   constructor(
     @InjectRepository(TableEntity)
     private readonly repository: Repository<TableEntity>,
+    private readonly restaurantService: RestaurantServiceService,
   ) {}
 
   public async create(item: CreateRestaurantTableDto) {
@@ -29,10 +31,38 @@ export class RestaurantTableService {
 
     // Check that the number is positiv
     if (installCustomerDto.customersNumber < 1)
-      throw new Error('Sorry but the customersNumber cannot be less than 1');
+      return {
+        error: true,
+        message: 'Sorry but the customersNumber cannot be less than 1',
+      };
     // Check that the table is free
-    // Check that the customersNumber is not greater than capacity table
+    if (!table.isFree)
+      return {
+        error: true,
+        message: 'Sorry but the table is not free for this moment',
+      };
+    if (table.maxSize < installCustomerDto.customersNumber)
+      return {
+        error: true,
+        message: `Sorry but the table capacity is ${table.maxSize}`,
+      };
     // Check that a service is started
+    const startedService = await this.restaurantService.getActiveService();
+    if (!startedService) {
+      return {
+        error: true,
+        message: `Sorry but we'r close for this moment`,
+      };
+    }
+
+    table.installedCustomersNumber = installCustomerDto.customersNumber;
+    table.isFree = false;
+
+    this.repository.save(table);
+
+    return {
+      table,
+    };
   }
 
   public async list(): Promise<TableEntity[]> {

@@ -26,6 +26,13 @@ export class TableEntity extends BaseEntity {
   })
   number: number;
 
+  @Column({
+    name: 'installedCustomersNumber',
+    type: 'int',
+    default: 0,
+  })
+  installedCustomersNumber: number;
+
   @ManyToMany(() => SeatingPlanEntity, (item) => item.tables)
   @JoinTable()
   public seatingPlans: SeatingPlanEntity[];
