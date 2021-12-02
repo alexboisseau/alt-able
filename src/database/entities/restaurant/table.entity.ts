@@ -7,9 +7,10 @@ import { SeatingPlanEntity } from './seatingPlan.entity';
 export class TableEntity extends BaseEntity {
   @Column({
     name: 'status',
-    type: 'varchar',
+    type: 'boolean',
+    default: true,
   })
-  status: string;
+  isFree: boolean;
 
   @Column({
     name: 'size',
@@ -24,6 +25,13 @@ export class TableEntity extends BaseEntity {
     unique: true,
   })
   number: number;
+
+  @Column({
+    name: 'installedCustomersNumber',
+    type: 'int',
+    default: 0,
+  })
+  installedCustomersNumber: number;
 
   @ManyToMany(() => SeatingPlanEntity, (item) => item.tables)
   @JoinTable()
