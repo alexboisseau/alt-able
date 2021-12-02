@@ -49,7 +49,6 @@ export class RestaurantSeatingPlanController {
     try {
       const serviceIsActive =
         await this.restaurantServiceService.getActiveService();
-      console.log('serviceIsActive', serviceIsActive);
       if (serviceIsActive) {
         throw new Error('Cannot edit a seating plan when a service is active.');
       }

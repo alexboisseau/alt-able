@@ -1,16 +1,18 @@
-import { CreateRestaurantTableDto } from 'src/dtos';
+import { CreateRestaurantTableDto, InstallCustomerDto } from 'src/dtos';
 import camelCase from 'camelcase';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TableEntity } from 'src/database/entities';
 
 import { Repository, SelectQueryBuilder } from 'typeorm';
+import { RestaurantServiceService } from '../restaurant-service/restaurant-service.service';
 
 @Injectable()
 export class RestaurantTableService {
   constructor(
     @InjectRepository(TableEntity)
     private readonly repository: Repository<TableEntity>,
+    private readonly restaurantService: RestaurantServiceService,
   ) {}
 
   public async create(item: CreateRestaurantTableDto) {
@@ -22,6 +24,34 @@ export class RestaurantTableService {
     await this.repository.save(table);
 
     return table;
+  }
+
+  public async installCustomers(installCustomerDto: InstallCustomerDto) {
+    const table: TableEntity = await this.get(installCustomerDto.id);
+
+    const startedService = await this.restaurantService.getActiveService();
+    if (!startedService) {
+      throw new Error("Sorry but we'r close for this moment");
+    }
+
+    if (installCustomerDto.customersNumber < 1) {
+      throw new Error('Sorry but the customersNumber cannot be less than 1');
+    }
+
+    if (!table.isFree)
+      throw new Error('Sorry but the table is not free for this moment');
+
+    if (table.maxSize < installCustomerDto.customersNumber)
+      throw new Error('Sorry but the table capacity is ${table.maxSize}');
+
+    table.installedCustomersNumber = installCustomerDto.customersNumber;
+    table.isFree = false;
+
+    this.repository.save(table);
+
+    return {
+      table,
+    };
   }
 
   public async list(): Promise<TableEntity[]> {
