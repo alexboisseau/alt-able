@@ -26,7 +26,11 @@ export class RestaurantSeatingPlanController {
 
   @Post('/')
   async create(@Body() item: CreateRestaurantSeatingPlanDto) {
-    return this.seatingTableService.create(item);
+    try {
+      return await this.seatingTableService.create(item);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Get('/')
@@ -49,7 +53,6 @@ export class RestaurantSeatingPlanController {
     try {
       const serviceIsActive =
         await this.restaurantServiceService.getActiveService();
-      console.log('serviceIsActive', serviceIsActive);
       if (serviceIsActive) {
         throw new Error('Cannot edit a seating plan when a service is active.');
       }

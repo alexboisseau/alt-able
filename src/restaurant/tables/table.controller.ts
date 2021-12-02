@@ -10,8 +10,13 @@ import {
   HttpStatus,
   HttpException,
   UseGuards,
+  Patch,
 } from '@nestjs/common';
-import { CreateRestaurantTableDto, RestaurantTableDto } from '../../dtos';
+import {
+  CreateRestaurantTableDto,
+  RestaurantTableDto,
+  InstallCustomerDto,
+} from '../../dtos';
 import { RestaurantTableService } from './table.service';
 import { AuthGuard } from 'src/guards/auth.guard';
 
@@ -50,5 +55,17 @@ export class RestaurantTableController {
   @UseGuards(AuthGuard)
   async delete(@Param() id: string) {
     return this.tableService.destroy(id);
+  }
+
+  @Patch('/customer-installation')
+  async installCustomers(@Body() installCustomerDto: InstallCustomerDto) {
+    try {
+      const installCustomerResponse = await this.tableService.installCustomers(
+        installCustomerDto,
+      );
+      return installCustomerResponse;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 }

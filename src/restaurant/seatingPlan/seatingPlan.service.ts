@@ -13,14 +13,18 @@ export class RestaurantSeatingPlanService {
     private readonly repository: Repository<SeatingPlanEntity>,
   ) {}
 
-  public async create(
-    item: CreateRestaurantSeatingPlanDto,
-  ): Promise<SeatingPlanEntity> {
+  public async create(item: CreateRestaurantSeatingPlanDto) {
     await this.closeSeatingPlan();
 
-    const { id } = await this.repository.save(item);
+    try {
+      await this.repository.save(item);
+    } catch (error) {
+      throw new Error(
+        'Error during creation. Please, make sure that the name of Seating Plan is unique',
+      );
+    }
 
-    return this.get(id);
+    return item;
   }
 
   async closeSeatingPlan() {
