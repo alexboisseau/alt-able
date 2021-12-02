@@ -29,31 +29,20 @@ export class RestaurantTableService {
   public async installCustomers(installCustomerDto: InstallCustomerDto) {
     const table: TableEntity = await this.get(installCustomerDto.id);
 
-    // Check that the number is positiv
-    if (installCustomerDto.customersNumber < 1)
-      return {
-        error: true,
-        message: 'Sorry but the customersNumber cannot be less than 1',
-      };
-    // Check that the table is free
-    if (!table.isFree)
-      return {
-        error: true,
-        message: 'Sorry but the table is not free for this moment',
-      };
-    if (table.maxSize < installCustomerDto.customersNumber)
-      return {
-        error: true,
-        message: `Sorry but the table capacity is ${table.maxSize}`,
-      };
-    // Check that a service is started
     const startedService = await this.restaurantService.getActiveService();
     if (!startedService) {
-      return {
-        error: true,
-        message: `Sorry but we'r close for this moment`,
-      };
+      throw new Error("Sorry but we'r close for this moment");
     }
+
+    if (installCustomerDto.customersNumber < 1) {
+      throw new Error('Sorry but the customersNumber cannot be less than 1');
+    }
+
+    if (!table.isFree)
+      throw new Error('Sorry but the table is not free for this moment');
+
+    if (table.maxSize < installCustomerDto.customersNumber)
+      throw new Error('Sorry but the table capacity is ${table.maxSize}');
 
     table.installedCustomersNumber = installCustomerDto.customersNumber;
     table.isFree = false;

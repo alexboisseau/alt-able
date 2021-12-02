@@ -30,7 +30,5 @@ export class InstallCustomerDto {
 }
 
 export class InstallCustomerResponse {
-  public error?: boolean;
-  public message?: string;
   public table?: TableEntity;
 }
