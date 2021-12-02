@@ -7,10 +7,10 @@ import {
 } from 'typeorm';
 import { DishEntity } from '../restaurant-menu/dish.entity';
 import { MenuEntity } from '../restaurant-menu/menu.entity';
-import { Ticket } from './ticket.entity';
+import { Bill } from './bill.entity';
 
 @Entity()
-export class TicketDetails {
+export class BillDetails {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -22,9 +22,9 @@ export class TicketDetails {
   @JoinColumn()
   menuId: MenuEntity;
 
-  @OneToOne(() => Ticket)
+  @OneToOne(() => Bill)
   @JoinColumn()
-  ticketId: Ticket;
+  billId: Bill;
 
   @Column()
   quantity: number;
