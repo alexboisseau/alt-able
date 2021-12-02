@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 
 import { DatabaseModule } from './database/database.module';
 import { DishModule } from './restaurant-menu/dish/dish.module';
@@ -19,6 +20,7 @@ import { RestaurantTableModule } from './restaurant/tables/table.module';
     DatabaseModule,
     DishModule,
     MenuModule,
+    AuthModule,
     RestaurantMenuModule,
     RestaurantTableModule,
     RestaurantSeatingPlanModule,
