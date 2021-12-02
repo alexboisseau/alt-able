@@ -9,9 +9,11 @@ import {
   Delete,
   HttpStatus,
   HttpException,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateRestaurantTableDto, RestaurantTableDto } from '../../dtos';
 import { RestaurantTableService } from './table.service';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('tables')
 export class RestaurantTableController {
@@ -45,6 +47,7 @@ export class RestaurantTableController {
   }
 
   @Delete('/:id')
+  @UseGuards(AuthGuard)
   async delete(@Param() id: string) {
     return this.tableService.destroy(id);
   }
