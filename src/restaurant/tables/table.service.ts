@@ -42,7 +42,7 @@ export class RestaurantTableService {
       throw new Error('Sorry but the table is not free for this moment');
 
     if (table.maxSize < installCustomerDto.customersNumber)
-      throw new Error('Sorry but the table capacity is ${table.maxSize}');
+      throw new Error(`Sorry but the table capacity is ${table.maxSize}`);
 
     table.installedCustomersNumber = installCustomerDto.customersNumber;
     table.isFree = false;

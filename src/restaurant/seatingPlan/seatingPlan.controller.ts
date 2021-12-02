@@ -26,7 +26,11 @@ export class RestaurantSeatingPlanController {
 
   @Post('/')
   async create(@Body() item: CreateRestaurantSeatingPlanDto) {
-    return this.seatingTableService.create(item);
+    try {
+      return await this.seatingTableService.create(item);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Get('/')
