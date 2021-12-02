@@ -17,4 +17,7 @@ export class ConfigService {
   public get port(): number {
     return parseInt(process.env.PORT);
   }
+  public readonly jwtSecret: string = process.env.JWT_SECRET;
+
+  public readonly salt: string = process.env.SALT;
 }
