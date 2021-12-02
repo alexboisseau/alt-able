@@ -1,14 +1,20 @@
-import { HttpService, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import type { UserDto, CreateUserDto } from '../../dtos/auth';
-import { firstValueFrom } from 'rxjs';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserEntity } from 'src/database/entities';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CitizenService {
-  public constructor(private readonly httpService: HttpService) {}
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly repository: Repository<UserEntity>,
+  ) {}
 
   public async create(dto: CreateUserDto): Promise<UserDto> {
-    const response = await firstValueFrom(this.httpService.post('/users', dto));
+    const response = this.repository.create(dto);
+    await this.repository.save(response);
 
-    return response.data;
+    return response;
   }
 }

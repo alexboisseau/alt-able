@@ -35,7 +35,6 @@ export class AuthService {
     const user = await this.accountRepository.findOneOrFail({
       where: { email },
     });
-
     const hashedPassword = this.hashPassword(password);
     if (user.password !== hashedPassword) {
       throw new BadRequestException();
@@ -44,11 +43,12 @@ export class AuthService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _, id, ...trimmedUser } = user;
 
-    const { data: citizen } = await firstValueFrom(
-      this.httpService.get<UserDto | undefined>(`/users/${id}`),
-    );
+    // const { data: citizen } = await firstValueFrom(
+    //   this.httpService.get<UserDto | undefined>(`/users/${id}`),
+    //   );
+    //   console.log(user);
 
-    const content = { ...trimmedUser, citizen };
+    const content = { ...trimmedUser };
 
     return { token: this.jwtService.sign(content) };
   }
