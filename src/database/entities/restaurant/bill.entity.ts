@@ -8,7 +8,7 @@ import {
 import { TableEntity } from './table.entity';
 
 @Entity()
-export class Ticket {
+export class Bill {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -18,8 +18,4 @@ export class Ticket {
   @OneToOne(() => TableEntity)
   @JoinColumn()
   tableId: TableEntity;
-
-  // @OneToOne(() => ServiceEntity, (item) => item.tickets)
-  // @JoinColumn()
-  // service: ServiceEntity;
 }
